@@ -61,14 +61,54 @@ var storage = (function () {
                     callback(data);
                 }
             });
-        }
+        },
 
         whenLoad: function (dataObject, callback) {
-
+            console.log('load');
+            console.log(dataObject);
+            dynamodb.getItem({
+                TableName: dataObject.table,
+                Key: {
+                    Pronoun: {
+                        S: dataObject.key
+                    }
+                }
+            }, function (err, data) {
+                if (err){
+                    callback(err);
+                }
+                else{
+                    callback(data);
+                }
+            });
         },
 
         whenSave: function (dataObject, callback) {
-
+            console.log('Saving when object');
+            console.log(dataObject);
+            dynamodb.putItem({
+                TableName: dataObject.table,
+                Item: {
+                    key: {
+                        S: dataObject.key,
+                    },
+                    pronoun: {
+                        S: dataObject.pronoun
+                    },
+                    data: {
+                        S: JSON.stringify(dataObject.value)
+                    }
+                }
+            }, function (err, data) {
+                if (err) {
+                    console.log('error');
+                    console.log(err);
+                }
+                if (callback) {
+                    console.log('success');
+                    callback(data);
+                }
+            });
         },
 
         whereLoad: function (dataObject, callback) {
