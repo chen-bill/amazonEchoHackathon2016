@@ -112,11 +112,52 @@ var storage = (function () {
         },
 
         whereLoad: function (dataObject, callback) {
-            
+            console.log('load');
+            console.log(dataObject);
+            dynamodb.getItem({
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: dataObject.key
+                    }
+                }
+            }, function (err, data) {
+                if (err){
+                    callback(err);
+                }
+                else{
+                    callback(data);
+                }
+            });
         },
 
         whereSave: function (dataObject, callback) {
-
+            console.log('save');
+            console.log(dataObject);
+            dynamodb.putItem({
+                TableName: dataObject.table,
+                Item: {
+                    key: {
+                        S: dataObject.key,
+                    },
+                    dataObject.pronoun : JSON.stringify(dataObject.value)
+                   /* pronoun: {
+                        S: dataObject.pronoun
+                    },
+                    data: {
+                        S: JSON.stringify(dataObject.value)
+                    }*/
+                }
+            }, function (err, data) {
+                if (err) {
+                    console.log('error');
+                    console.log(err);
+                }
+                if (callback) {
+                    console.log('success');
+                    callback(data);
+                }
+            });
         }
     };
 })();
