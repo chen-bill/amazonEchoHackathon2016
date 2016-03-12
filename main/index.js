@@ -106,7 +106,7 @@ function getWelcomeResponse(callback) {
 function whatPost(intent, session, callback){
   var speechOutput;
   var repromptText;
-  var slotPronoun = intent.slots.WhatPronoun.value;
+  var slotPronoun = intent.slots.Pronoun.value;
   var slotKey = intent.slots.WhatKey.value;
   var slotValue = intent.slots.WhatValue.value;
 
@@ -137,7 +137,7 @@ function whatPost(intent, session, callback){
       value: slotValue
     }
 
-    storage.saveWhat(dataObject, function(res){
+    storage.whatSave(dataObject, function(res){
       speechOutput = "Saved " + slotKey;
       repromptText = speechOutput;
 
@@ -155,7 +155,7 @@ function whatPost(intent, session, callback){
 function whatGet(intent, session, callback){
   var speechOutput;
   var repromptText;
-  var slotPronoun = intent.slots.WhatPronoun.value;
+  var slotPronoun = intent.slots.Pronoun.value;
   var slotKey = intent.slots.WhatKey.value;
 
   var dataObject = {
@@ -164,7 +164,7 @@ function whatGet(intent, session, callback){
     key: slotKey
   }
 
-  storage.load(dataObject, function(data){
+  storage.whatLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
     var responseValue = data.value;
@@ -216,7 +216,7 @@ function wherePost(intent, session, callback){
       value: slotValue
     }
 
-    storage.saveWhat(dataObject, function(res){
+    storage.whereSave(dataObject, function(res){
       speechOutput = "Saved " + slotKey;
       repromptText = speechOutput;
 
@@ -243,7 +243,7 @@ function whereGet(intent, session, callback){
     key: slotKey
   }
 
-  storage.load(dataObject, function(data){
+  storage.whereLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
     var responseValue = data.value;
