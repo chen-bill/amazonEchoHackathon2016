@@ -138,8 +138,8 @@ function whatGet(intent, session, callback){
   // var repromptText = speechOutput;
 
   storage.load(dataObject, function(data){
-    console.log('success');
-    console.log(data)
+    console.log('success get');
+    console.log(data);
 
     var sessionAttributes = {
       "speechOutput": speechOutput,

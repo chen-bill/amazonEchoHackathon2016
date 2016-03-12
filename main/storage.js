@@ -42,7 +42,7 @@ var storage = (function () {
                 TableName: dataObject.table,
                 Item: {
                     key: {
-                        S: dataObject.key
+                        S: dataObject.key,
                     },
                     pronoun: {
                         S: dataObject.pronoun
