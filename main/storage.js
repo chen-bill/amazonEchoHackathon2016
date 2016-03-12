@@ -21,9 +21,7 @@ var storage = (function () {
             dynamodb.getItem({
                 TableName: dataObject.table,
                 Key: {
-                    key: {
-                        S: dataObject.key
-                    }
+                    key: dataObject.key
                 }
             }, function (err, data) {
                 if (err){
@@ -41,15 +39,9 @@ var storage = (function () {
             dynamodb.putItem({
                 TableName: dataObject.table,
                 Item: {
-                    key: {
-                        S: dataObject.key,
-                    },
-                    pronoun: {
-                        S: dataObject.pronoun
-                    },
-                    data: {
-                        S: JSON.stringify(dataObject.value)
-                    }
+                    key: dataObject.key,
+                    pronoun: dataObject.pronoun,
+                    data: JSON.stringify(dataObject.value)
                 }
             }, function (err, data) {
                 if (err) {
