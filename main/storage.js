@@ -15,7 +15,7 @@ var storage = (function () {
     var dynamodb = new AWS.DynamoDB({apiVersion: '2012-08-10'});
 
     return {
-        load: function (dataObject, callback) {
+        whatLoad: function (dataObject, callback) {
             console.log('load');
             console.log(dataObject);
             dynamodb.getItem({
@@ -35,7 +35,7 @@ var storage = (function () {
             });
         },
 
-        save: function (dataObject, callback) {
+        whatSave: function (dataObject, callback) {
             console.log('save');
             console.log(dataObject);
             dynamodb.putItem({
@@ -61,6 +61,22 @@ var storage = (function () {
                     callback(data);
                 }
             });
+        }
+
+        whenLoad: function (dataObject, callback) {
+
+        },
+
+        whenSave: function (dataObject, callback) {
+
+        },
+
+        whereLoad: function (dataObject, callback) {
+            
+        },
+
+        whereSave: function (dataObject, callback) {
+
         }
     };
 })();
