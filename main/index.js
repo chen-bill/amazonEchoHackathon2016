@@ -106,9 +106,9 @@ function getWelcomeResponse(callback) {
 function whatPost(intent, session, callback){
   var speechOutput;
   var repromptText;
-  var slotPronoun = intent.slots.WhatKey.pronoun;
-  var slotKey = intent.slots.WhatKey.key;
-  var slotValue = intent.slots.WhatKey.value;
+  var slotPronoun = intent.slots.WhatPronoun.value;
+  var slotKey = intent.slots.WhatKey.value;
+  var slotValue = intent.slots.WhatValue.value;
 
   console.log(slotPronoun);
   console.log(slotKey);
@@ -155,8 +155,8 @@ function whatPost(intent, session, callback){
 function whatGet(intent, session, callback){
   var speechOutput;
   var repromptText;
-  var slotPronoun = intent.slots.WhatKey.pronoun;
-  var slotKey = intent.slots.WhatKey.key;
+  var slotPronoun = intent.slots.WhatPronoun.value;
+  var slotKey = intent.slots.WhatKey.value;
 
   var dataObject = {
     table: 'what',
@@ -189,9 +189,9 @@ function whatGet(intent, session, callback){
 function wherePost(intent, session, callback){
   var speechOutput;
   var repromptText;
-  var slotPronoun = intent.slots.WhatKey.pronoun;
-  var slotKey = intent.slots.WhereKey.key;
-  var slotValue = intent.slots.WhereKey.value;
+  var slotPronoun = intent.slots.Pronoun.value;
+  var slotKey = intent.slots.WhereKey.value;
+  var slotValue = intent.slots.WhereValue.value;
 
   if(!slotKey || !slotValue){
     speechOutput = "Error saving data, please try again";
@@ -234,8 +234,8 @@ function wherePost(intent, session, callback){
 function whereGet(intent, session, callback){
   var speechOutput;
   var repromptText;
-  var slotPronoun = intent.slots.WhatKey.pronoun;
-  var slotKey = intent.slots.WhatKey.key;
+  var slotPronoun = intent.slots.Pronoun.value;
+  var slotKey = intent.slots.WhereKey.value;
 
   var dataObject = {
     table: 'what',
