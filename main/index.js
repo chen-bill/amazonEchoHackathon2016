@@ -104,11 +104,15 @@ function getWelcomeResponse(callback) {
 }
 
 function whatPost(intent, session, callback){
+  var slotPronoun = intent.slots.WhatKey.pronoun;
+  var slotKey = intent.slots.WhatKey.key;
+  var slotValue = intent.slots.WhatKey.value;
+
   var dataObject = {
     table: 'what',
-    pronoun: intent.slots.Pronoun.value,
-    key: intent.slots.WhatKey.value,
-    value: intent.slots.WhatValue.value
+    pronoun: slotPronoun,
+    key: slotKey,
+    value: slotValue
   }
 
   storage.save(dataObject, function(res){
