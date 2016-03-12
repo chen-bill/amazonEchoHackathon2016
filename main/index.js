@@ -110,6 +110,10 @@ function whatPost(intent, session, callback){
   var slotKey = intent.slots.WhatKey.key;
   var slotValue = intent.slots.WhatKey.value;
 
+  console.log(slotPronoun);
+  console.log(slotKey);
+  console.log(slotValue);
+
   if(!slotKey || !slotValue){
     speechOutput = "Error saving data, please try again";
     repromptText = "Please try again";
@@ -181,6 +185,86 @@ function whatGet(intent, session, callback){
       buildSpeechletResponse(speechOutput, repromptText, false));
   });
 }
+
+function wherePost(intent, session, callback){
+  var speechOutput;
+  var repromptText;
+  var slotPronoun = intent.slots.WhatKey.pronoun;
+  var slotKey = intent.slots.WhereKey.key;
+  var slotValue = intent.slots.WhereKey.value;
+
+  if(!slotKey || !slotValue){
+    speechOutput = "Error saving data, please try again";
+    repromptText = "Please try again";
+
+    var sessionAttributes = {
+      "speechOutput": speechOutput,
+      "repromptText": repromptText
+    };
+
+    callback(sessionAttributes,
+        buildSpeechletResponse(speechOutput, repromptText, false));
+  } else {
+    if(!slotPronoun){
+      slotPronoun = "my";
+    }
+
+    var dataObject = {
+      table: 'what',
+      pronoun: slotPronoun,
+      key: slotKey,
+      value: slotValue
+    }
+
+    storage.saveWhat(dataObject, function(res){
+      speechOutput = "Saved " + slotKey;
+      repromptText = speechOutput;
+
+      var sessionAttributes = {
+        "speechOutput": speechOutput,
+        "repromptText": repromptText
+      };
+
+      callback(sessionAttributes,
+        buildSpeechletResponse(speechOutput, repromptText, false));
+    });
+  }
+}
+
+function whereGet(intent, session, callback){
+  var speechOutput;
+  var repromptText;
+  var slotPronoun = intent.slots.WhatKey.pronoun;
+  var slotKey = intent.slots.WhatKey.key;
+
+  var dataObject = {
+    table: 'what',
+    pronoun: slotPronoun,
+    key: slotKey
+  }
+
+  storage.load(dataObject, function(data){
+    console.log('success get');
+    console.log(data);
+    var responseValue = data.value;
+
+    if(!responseValue){
+      speechOutput = "Could not find record for " + slotKey
+      reprompt = "Try again?"
+    } else {
+      speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
+    }
+
+    var sessionAttributes = {
+      "speechOutput": speechOutput,
+      "repromptText": repromptText
+    };
+
+    callback(sessionAttributes,
+      buildSpeechletResponse(speechOutput, repromptText, false));
+  });
+}
+
 
 function handleRepeatRequest(intent, session, callback) {
   var speechOutput = session.speechOutput;
