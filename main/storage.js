@@ -70,7 +70,9 @@ var storage = (function () {
                 TableName: dataObject.table,
                 Key: {
                     Pronoun: {
-                        S: dataObject.key
+                        Event: {
+                            S: dataObject.event
+                        }
                     }
                 }
             }, function (err, data) {
@@ -95,8 +97,8 @@ var storage = (function () {
                     pronoun: {
                         S: dataObject.pronoun
                     },
-                    data: {
-                        S: JSON.stringify(dataObject.value)
+                    event: {
+                        S: JSON.stringify(dataObject.event)
                     }
                 }
             }, function (err, data) {
