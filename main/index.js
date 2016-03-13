@@ -166,6 +166,10 @@ function whatGet(intent, session, callback){
   var slotPronoun = intent.slots.Pronoun.value;
   var slotKey = intent.slots.WhatKey.value;
 
+  if(!slotPronoun){
+    slotPronoun = "my";
+  }
+
   var dataObject = {
     table: 'what',
     pronoun: slotPronoun,
@@ -179,7 +183,7 @@ function whatGet(intent, session, callback){
 
     if(!responseValue){
       speechOutput = "Could not find record for " + slotKey
-      reprompt = "Try again?"
+      repromptText = "Try again?"
     } else {
       speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
     }
@@ -227,7 +231,7 @@ function wherePost(intent, session, callback){
     }
 
     storage.whereSave(dataObject, function(res){
-      speechOutput = "Saved " + slotKey;
+      speechOutput = "Saved " + slotKey + " location";
       repromptText = speechOutput;
 
       var sessionAttributes = {
@@ -247,6 +251,10 @@ function whereGet(intent, session, callback){
   var slotPronoun = intent.slots.Pronoun.value;
   var slotKey = intent.slots.WhereKey.value;
 
+  if(!slotPronoun){
+    slotPronoun = "my";
+  }
+
   var dataObject = {
     table: 'where',
     pronoun: slotPronoun,
@@ -260,7 +268,7 @@ function whereGet(intent, session, callback){
 
     if(!responseValue){
       speechOutput = "Could not find record for " + slotKey
-      reprompt = "Try again?"
+      repromptText = "Try again?"
     } else {
       speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
     }
@@ -318,7 +326,7 @@ function whenPost(intent, session, callback){
     }
 
     storage.whenSave(dataObject, function(res){
-      speechOutput = "Saved " + slotKey + " " + slotEvent;
+      speechOutput = "Saved Event.";
       repromptText = speechOutput;
 
       var sessionAttributes = {
@@ -336,12 +344,18 @@ function whenGet(intent, session, callback){
   var speechOutput;
   var repromptText;
   var slotPronoun = intent.slots.Pronoun.value;
-  var slotKey = intent.slots.WhereKey.value;
+  var slotKey = intent.slots.WhenKey.value;
+  var slotEvent = intent.slots.Event.value;
+
+  if(!slotPronoun){
+    slotPronoun = "my";
+  }
 
   var dataObject = {
-    table: 'what',
+    table: 'when',
     pronoun: slotPronoun,
-    key: slotKey
+    key: slotKey,
+    event: slotEvent,
   }
 
   storage.whereLoad(dataObject, function(data){
@@ -351,9 +365,9 @@ function whenGet(intent, session, callback){
 
     if(!responseValue){
       speechOutput = "Could not find record for " + slotKey
-      reprompt = "Try again?"
+      repromptText = "Try again?"
     } else {
-      speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
+      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + responseValue;
     }
 
     var sessionAttributes = {
