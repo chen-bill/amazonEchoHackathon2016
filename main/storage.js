@@ -30,14 +30,18 @@ var storage = (function () {
                 else {
                     // console.log("DATA RETREIVED");
                     // console.log(data);
-                    if (data.Item.pronoun.M[dataObject.pronoun]) {
-                        console.log(data.Item.pronoun.M[dataObject.pronoun].S);
-                        callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+                    if (Object.keys(data).length !== 0 && JSON.stringify(data) !== JSON.stringify({})) {
+                        if (data.Item.pronoun.M[dataObject.pronoun]) {
+                            console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                            callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+                        }
+                        else {
+                            callback(null);
+                        }    
                     }
                     else {
                         callback(null);
-                    }    
-                    
+                    }
                 }
             });
         },
@@ -175,35 +179,20 @@ var storage = (function () {
                     callback(err);
                 }
                 else {
-
-                    // var params = {
-                    //   "key": {
-                    //     "S": "Girlfriend"
-                    //   },
-                    //   "pronoun": {
-                    //     "M": {
-                    //       "my": {
-                    //         "M": {
-                    //           "wrong": {
-                    //             "S": "dummyDate"
-                    //           }
-                    //         }
-                    //       }
-                    //     }
-                    //   }
-                    // }
-
-
                     // console.log("DATA RETREIVED");
                     // console.log(data);
-                    if (data.Item.pronoun.M[dataObject.pronoun]) {
-                        console.log(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);
-                        callback(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);    
+                    if (Object.keys(data).length !== 0 && JSON.stringify(data) !== JSON.stringify({})) {
+                        if (data.Item.pronoun.M[dataObject.pronoun]) {
+                            console.log(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);
+                            callback(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);    
+                        }
+                        else {
+                            callback(null);
+                        }    
                     }
                     else {
                         callback(null);
-                    }    
-                    
+                    }
                 }
             });
 
@@ -386,17 +375,22 @@ var storage = (function () {
                 if (err) {
                     callback(err);
                 }
+
                 else {
                     // console.log("DATA RETREIVED");
                     // console.log(data);
-                    if (data.Item.pronoun.M[dataObject.pronoun]) {
-                        console.log(data.Item.pronoun.M[dataObject.pronoun].S);
-                        callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+                    if (Object.keys(data).length !== 0 && JSON.stringify(data) !== JSON.stringify({})) {
+                        if (data.Item.pronoun.M[dataObject.pronoun]) {
+                            console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                            callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+                        }
+                        else {
+                            callback(null);
+                        }    
                     }
                     else {
                         callback(null);
-                    }    
-                    
+                    }
                 }
             });
         },
