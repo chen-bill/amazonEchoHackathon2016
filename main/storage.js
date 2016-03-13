@@ -167,7 +167,7 @@ var storage = (function () {
                 TableName: dataObject.table,
                 Item: {
                     "key": {},
-                    "pronoun": { "M" }
+                    "pronoun": { "M": {} }
                 }
             };
             params.Item.key.S = key;
