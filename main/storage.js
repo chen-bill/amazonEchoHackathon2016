@@ -140,6 +140,25 @@ var storage = (function () {
         },
 
         whereLoad: function (dataObject, callback) {
+            console.log('load');
+            console.log(dataObject);
+            var params = {
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: dataObject.key
+                    }
+                }
+            };
+            dynamodb.getItem(params, function (err, data) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                    callback(data.Item.pronoun.M[dataObject.pronoun].S);
+                }
+            });
             // console.log('load');
             // console.log(dataObject);
             // dynamodb.getItem({
