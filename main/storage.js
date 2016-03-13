@@ -64,27 +64,60 @@ var storage = (function () {
 
             var params = {
                 TableName: dataObject.table,
-                Item: {
-                    "key": {},
-                    "pronoun": {
-                        "M": {}
+                Key: {
+                    key: {
+                        S: key
                     }
                 }
             };
-            params.Item.key.S = key;
-            params.Item.pronoun.M[pronoun] = {
-                    "S": object
-            };
-            console.log(JSON.stringify(params));
-
-            dynamodb.putItem(params, function (err, data) {
+            dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    console.log('error');
-                    console.log(err);
+                    callback(err);
                 }
-                if (callback) {
-                    console.log('success');
-                    callback(data);
+                else {
+                    console.log("Succesfully retreived old data:");
+                    // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                    console.log(data);
+
+                    var previousValue = data;
+
+                    //Post
+                    //  var params = {
+                    //     TableName: dataObject.table,
+                    //     Item: {
+                    //         "key": {},
+                    //         "pronoun": {
+                    //             "M": {}
+                    //         }
+                    //     }
+                    // };
+
+
+                    // params.Item.key.S = key;
+                    // params.Item.pronoun.M[pronoun] = {
+                    //         "S": object
+                    // };
+
+                    previousValue.Item.key.S = key;
+                    previousValue.Item.pronoun.M[pronoun] = {
+                            "S": object
+                    };
+                    previousValue.TableName = dataObject.table;
+                    console.log("Posting new data:");
+                    console.log(JSON.stringify(previousValue));
+
+                    dynamodb.putItem(previousValue, function (err, data) {
+                        if (err) {
+                            console.log('error');
+                            console.log(err);
+                        }
+                        if (callback) {
+                            console.log('success');
+                            callback(data);
+                        }
+                    });
+
+
                 }
             });
         },
