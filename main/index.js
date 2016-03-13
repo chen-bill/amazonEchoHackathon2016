@@ -179,13 +179,12 @@ function whatGet(intent, session, callback){
   storage.whatLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
-    var responseValue = data.value;
 
-    if(!responseValue){
+    if(!data){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
-      speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
+      speechOutput = slotPronoun + " " + slotKey + " is " + data;
     }
 
     var sessionAttributes = {
@@ -264,13 +263,12 @@ function whereGet(intent, session, callback){
   storage.whereLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
-    var responseValue = data.value;
 
-    if(!responseValue){
+    if(!data){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
-      speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
+      speechOutput = slotPronoun + " " + slotKey + " is " + data;
     }
 
     var sessionAttributes = {
@@ -361,13 +359,12 @@ function whenGet(intent, session, callback){
   storage.whereLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
-    var responseValue = data.value;
 
-    if(!responseValue){
+    if(!data){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
-      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + responseValue;
+      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + data;
     }
 
     var sessionAttributes = {
