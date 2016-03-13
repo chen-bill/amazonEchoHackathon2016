@@ -181,7 +181,7 @@ function whatGet(intent, session, callback){
     console.log(data);
 
     if(!data){
-      speechOutput = "Could not find record for " + slotKey
+      speechOutput = "You didn't tell me what " + slotPronoun + " " + slotKey + " is yet"
       repromptText = "Try again?"
     } else {
       speechOutput = slotPronoun + " " + slotKey + " is " + data;
@@ -356,7 +356,7 @@ function whenGet(intent, session, callback){
     event: slotEvent,
   }
 
-  storage.whereLoad(dataObject, function(data){
+  storage.whenLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
 

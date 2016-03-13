@@ -52,13 +52,68 @@
         {
           "name": "WhereValue",
           "type": "WHERE_VALUE"
+        }
+      ]
+    },
+    {
+      "intent": "WhereGetIntent",
+      "slots": [
+        {
+          "name": "Pronoun",
+          "type": "PRONOUN_LIST"
         },
         {
-          "name": "WhereDate",
+          "name": "WhereKey",
+          "type": "WHERE_KEY"
+        }
+      ]
+    },
+    {
+      "intent": "WhenPostIntent",
+      "slots": [
+        {
+          "name": "Pronoun",
+          "type": "PRONOUN_LIST"
+        },
+        {
+          "name": "WhenKey",
+          "type": "WHEN_KEY"
+        },
+        {
+          "name": "Event",
+          "type": "EVENT_LIST"
+        },
+        {
+          "name": "Date",
           "type": "AMAZON.DATE"
         },
         {
-          "name": "WhereTime",
+          "name": "Time",
+          "type": "AMAZON.TIME"
+        }
+      ]
+    },
+    {
+      "intent": "WhenGetIntent",
+      "slots": [
+        {
+          "name": "Pronoun",
+          "type": "PRONOUN_LIST"
+        },
+        {
+          "name": "WhenKey",
+          "type": "WHEN_KEY"
+        },
+        {
+          "name": "Event",
+          "type": "EVENT_LIST"
+        },
+        {
+          "name": "Date",
+          "type": "AMAZON.DATE"
+        },
+        {
+          "name": "Time",
           "type": "AMAZON.TIME"
         }
       ]

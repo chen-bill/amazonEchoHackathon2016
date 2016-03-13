@@ -27,12 +27,6 @@ WherePostIntent {WhereKey} has gone to {WhereValue}
 WherePostIntent {WhereKey} went to {WhereValue}
 WherePostIntent {WhereKey} is now {WhereValue}
 WherePostIntent {WhereKey} was {WhereValue}
-WherePostIntent {WhereKey} was {WhereValue} {WhereTime}
-WherePostIntent {WhereKey} was {WhereValue} {WhereTime} 
-WherePostIntent {WhereKey} was {WhereValue} {WhereDate}
-WherePostIntent {WhereKey} was {WhereValue} {WhereDate} 
-WherePostIntent My {WhereKey} was {WhereValue} {WhereTime}
-WherePostIntent My {WhereKey} was {WhereValue} {WhereDate}
 WherePostIntent I think {WhereKey} is {WhereValue}
 WherePostIntent I think my {WhereKey} is {WhereValue}
 WherePostIntent I think {WhereKey} is {WhereValue}
@@ -64,12 +58,6 @@ WherePostIntent {Pronoun} {WhereKey} has gone to {WhereValue}
 WherePostIntent {Pronoun} {WhereKey} went to {WhereValue}
 WherePostIntent {Pronoun} {WhereKey} is now {WhereValue}
 WherePostIntent {Pronoun} {WhereKey} was {WhereValue}
-WherePostIntent {Pronoun} {WhereKey} was {WhereValue} {WhereTime}
-WherePostIntent {Pronoun} {WhereKey} was {WhereValue} {WhereTime} 
-WherePostIntent {Pronoun} {WhereKey} was {WhereValue} {WhereDate}
-WherePostIntent {Pronoun} {WhereKey} was {WhereValue} {WhereDate} 
-WherePostIntent {Pronoun} {WhereKey} was {WhereValue} {WhereTime}
-WherePostIntent {Pronoun} {WhereKey} was {WhereValue} {WhereDate}
 WherePostIntent I think {Pronoun} {WhereKey} is {WhereValue}
 WherePostIntent I think {Pronoun} {WhereKey} is {WhereValue}
 WherePostIntent {Pronoun} {WhereKey} location is {WhereValue}
@@ -77,3 +65,12 @@ WherePostIntent {Pronoun} {WhereKey} is {WhereValue}
 WherePostIntent I suppose {Pronoun} {WhereKey} is {WhereValue}
 WherePostIntent I suppose I can find {Pronoun} {WhereKey} {WhereValue}
 WherePostIntent Maybe I can find {Pronoun} {WhereKey} {WhereValue}
+
+WhereGetIntent Where is {Pronoun} {WhereKey}
+WhereGetIntent Where is {WhereKey}
+
+WhenPostIntent {Pronoun} {WhenKey} {Event} on {date}
+WhenPostIntent {Pronoun} {WhenKey} {Event} {time}
+WhenPostIntent {date} {pronoun} {WhenKey} {Event}
+WhenPostIntent {date} {WhenKey} {Event}
+
