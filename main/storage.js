@@ -25,7 +25,7 @@ var storage = (function () {
             };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    callback(err);
+                    callback("Please try again");
                 }
                 else {
                     // console.log("DATA RETREIVED");
@@ -79,7 +79,7 @@ var storage = (function () {
             };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    callback(err);
+                    callback("Please try again");
                 }
                 else {
                     console.log("Succesfully retreived old data:");
@@ -176,7 +176,7 @@ var storage = (function () {
             };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    callback(err);
+                    callback("Please try again");
                 }
                 else {
                     // console.log("DATA RETREIVED");
@@ -233,7 +233,7 @@ var storage = (function () {
             };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    callback(err);
+                    callback("Please try again");
                 }
                 else {
                     // console.log("Succesfully retreived old data:");
@@ -345,7 +345,7 @@ var storage = (function () {
             // };
             // dynamodb.getItem(params, function (err, data) {
             //     if (err) {
-            //         callback(err);
+            //         callback("Please try again");
             //     }
             //     else {
             //         // console.log("DATA RETREIVED");
@@ -373,7 +373,7 @@ var storage = (function () {
             };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    callback(err);
+                    callback("Please try again");
                 }
 
                 else {
@@ -412,7 +412,7 @@ var storage = (function () {
             // };
             // dynamodb.getItem(params, function (err, data) {
             //     if (err) {
-            //         callback(err);
+            //         callback("Please try again");
             //     }
             //     else {
             //         console.log("Succesfully retreived old data:");
@@ -475,7 +475,7 @@ var storage = (function () {
             };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
-                    callback(err);
+                    callback("Please try again");
                 }
                 else {
                     console.log("Succesfully retreived old data:");
