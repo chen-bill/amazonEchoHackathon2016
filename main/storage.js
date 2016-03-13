@@ -182,7 +182,7 @@ var storage = (function () {
                     // console.log("DATA RETREIVED");
                     // console.log(data);
                     if (Object.keys(data).length !== 0 && JSON.stringify(data) !== JSON.stringify({})) {
-                        if (data.Item.pronoun.M[dataObject.pronoun]) {
+                        if (data.Item.pronoun.M[dataObject.pronoun] &&  data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event]) {
                             console.log(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);
                             callback(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);    
                         }
