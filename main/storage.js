@@ -65,14 +65,14 @@ var storage = (function () {
             //     }
             // }
 
-            // var params = {
-            //     TableName: dataObject.table,
-            //     Key: {
-            //         key: {
-            //             S: key
-            //         }
-            //     }
-            // };
+            var params = {
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: key
+                    }
+                }
+            };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
                     callback(err);
