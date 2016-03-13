@@ -159,56 +159,219 @@ var storage = (function () {
         },
 
         whenLoad: function (dataObject, callback) {
-            // console.log('load');
-            // console.log(dataObject);
-            // dynamodb.getItem({
-            //     TableName: dataObject.table,
-            //     Key: {
-            //         Pronoun: {
-            //             Event: {
-            //                 S: dataObject.event
-            //             }
-            //         }
-            //     }
-            // }, function (err, data) {
-            //     if (err){
-            //         callback(err);
-            //     }
-            //     else{
-            //         callback(data);
-            //     }
-            // });
+
+            console.log('load');
+            console.log(dataObject);
+            var params = {
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: dataObject.key
+                    }
+                }
+            };
+            dynamodb.getItem(params, function (err, data) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+
+                    // var params = {
+                    //   "key": {
+                    //     "S": "Girlfriend"
+                    //   },
+                    //   "pronoun": {
+                    //     "M": {
+                    //       "my": {
+                    //         "M": {
+                    //           "wrong": {
+                    //             "S": "dummyDate"
+                    //           }
+                    //         }
+                    //       }
+                    //     }
+                    //   }
+                    // }
+
+
+                    // console.log("DATA RETREIVED");
+                    // console.log(data);
+                    if (data.Item.pronoun.M[dataObject.pronoun]) {
+                        console.log(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);
+                        callback(data.Item.pronoun.M[dataObject.pronoun].M[dataObject.event].S);    
+                    }
+                    else {
+                        callback(null);
+                    }    
+                    
+                }
+            });
+
         },
 
         whenSave: function (dataObject, callback) {
-            // console.log('Saving when object');
-            // console.log(dataObject);
-            // dynamodb.putItem({
-            //     TableName: dataObject.table,
-            //     Item: {
-            //         key: {
-            //             S: dataObject.key,
-            //         },
-            //         pronoun: {
-            //             S: dataObject.pronoun
-            //         },
-            //         event: {
-            //             S: JSON.stringify(dataObject.event)
+
+            console.log('save');
+            console.log(dataObject);
+            var pronoun = dataObject.pronoun;
+            var key = dataObject.key;
+            var object = JSON.stringify(dataObject.value);
+
+            // var params = {
+            //   "key": {
+            //     "S": "Girlfriend"
+            //   },
+            //   "pronoun": {
+            //     "M": {
+            //       "my": {
+            //         "M": {
+            //           "wrong": {
+            //             "S": "dummyDate"
+            //           }
             //         }
+            //       }
             //     }
-            // }, function (err, data) {
-            //     if (err) {
-            //         console.log('error');
-            //         console.log(err);
-            //     }
-            //     if (callback) {
-            //         console.log('success');
-            //         callback(data);
-            //     }
-            // });
+            //   }
+            // }
+
+            var params = {
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: key
+                    }
+                }
+            };
+            dynamodb.getItem(params, function (err, data) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    // console.log("Succesfully retreived old data:");
+                    // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                    //console.log(data);
+
+                    if (Object.keys(data).length === 0 && JSON.stringify(data) === JSON.stringify({})) {
+                        //Post
+                        var params = {
+                            TableName: dataObject.table,
+                            Item: {
+                                "key": {},
+                                "pronoun": {
+                                    "M": {}
+                                }
+                            }
+                        };
+
+
+                        params.Item.key.S = key;
+                        params.Item.pronoun.M[pronoun] = {
+                                // "S": object
+                                "M": {}
+                        };
+
+                        params.Item.pronoum.M[pronoun].M[dataObject.event] = {
+                            "S": dataObject.timestamp
+                        };
+
+                        dynamodb.putItem(params, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
+
+                    }
+                    else {
+
+                        var previousValue = data;
+
+                        //Post
+                              // var params = {
+                    //   "key": {
+                    //     "S": "Girlfriend"
+                    //   },
+                    //   "pronoun": {
+                    //     "M": {
+                    //       "my": {
+                    //         "M": {
+                    //           "wrong": {
+                    //             "S": "dummyDate"
+                    //           }
+                    //         }
+                    //       }
+                    //     }
+                    //   }
+                    // }
+
+                        previousValue.Item.key.S = key;
+                        previousValue.Item.pronoun.M[pronoun] = {
+                                // "S": object
+                                "M": {}
+                        };
+                        // "wrong": {
+                        //     "S": "dummyDate"
+                        //   }
+
+                        previousValue.Item.pronoum.M[pronoun].M[dataObject.event] = {
+                            "S": dataObject.timestamp
+                        };
+
+                        previousValue.TableName = dataObject.table;
+                        console.log("Posting new data:");
+                        console.log(JSON.stringify(previousValue));
+
+                        dynamodb.putItem(previousValue, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
+                    }
+
+                }
+            });
+
+
         },
 
         whereLoad: function (dataObject, callback) {
+            // console.log('load');
+            // console.log(dataObject);
+            // var params = {
+            //     TableName: dataObject.table,
+            //     Key: {
+            //         key: {
+            //             S: dataObject.key
+            //         }
+            //     }
+            // };
+            // dynamodb.getItem(params, function (err, data) {
+            //     if (err) {
+            //         callback(err);
+            //     }
+            //     else {
+            //         // console.log("DATA RETREIVED");
+            //         // console.log(data);
+            //         if (data.Item.pronoun.M[dataObject.pronoun]) {
+            //             console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+            //             callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+            //         }
+            //         else {
+            //             callback(null);
+            //         }    
+                    
+            //     }
+            // });
+
             console.log('load');
             console.log(dataObject);
             var params = {
@@ -236,23 +399,6 @@ var storage = (function () {
                     
                 }
             });
-            // console.log('load');
-            // console.log(dataObject);
-            // dynamodb.getItem({
-            //     TableName: dataObject.table,
-            //     Key: {
-            //         key: {
-            //             S: dataObject.key
-            //         }
-            //     }
-            // }, function (err, data) {
-            //     if (err){
-            //         callback(err);
-            //     }
-            //     else{
-            //         callback(data);
-            //     }
-            // });
         },
 
         whereSave: function (dataObject, callback) {
