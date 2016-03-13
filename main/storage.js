@@ -80,46 +80,80 @@ var storage = (function () {
                 else {
                     console.log("Succesfully retreived old data:");
                     // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
-                    console.log(data);
+                    //console.log(data);
 
-                    var previousValue = data;
+                    if (data) {
+                        var previousValue = data;
 
-                    //Post
-                    //  var params = {
-                    //     TableName: dataObject.table,
-                    //     Item: {
-                    //         "key": {},
-                    //         "pronoun": {
-                    //             "M": {}
-                    //         }
-                    //     }
-                    // };
+                        //Post
+                        //  var params = {
+                        //     TableName: dataObject.table,
+                        //     Item: {
+                        //         "key": {},
+                        //         "pronoun": {
+                        //             "M": {}
+                        //         }
+                        //     }
+                        // };
 
 
-                    // params.Item.key.S = key;
-                    // params.Item.pronoun.M[pronoun] = {
-                    //         "S": object
-                    // };
+                        // params.Item.key.S = key;
+                        // params.Item.pronoun.M[pronoun] = {
+                        //         "S": object
+                        // };
 
-                    previousValue.Item.key.S = key;
-                    previousValue.Item.pronoun.M[pronoun] = {
-                            "S": object
-                    };
-                    previousValue.TableName = dataObject.table;
-                    console.log("Posting new data:");
-                    console.log(JSON.stringify(previousValue));
+                        previousValue.Item.key.S = key;
+                        previousValue.Item.pronoun.M[pronoun] = {
+                                "S": object
+                        };
+                        previousValue.TableName = dataObject.table;
+                        console.log("Posting new data:");
+                        console.log(JSON.stringify(previousValue));
 
-                    dynamodb.putItem(previousValue, function (err, data) {
-                        if (err) {
-                            console.log('error');
-                            console.log(err);
-                        }
-                        if (callback) {
-                            console.log('success');
-                            callback(data);
-                        }
-                    });
+                        dynamodb.putItem(previousValue, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
 
+                    }
+                    else {
+
+                        //Post
+                         var params = {
+                            TableName: dataObject.table,
+                            Item: {
+                                "key": {},
+                                "pronoun": {
+                                    "M": {}
+                                }
+                            }
+                        };
+
+
+                        params.Item.key.S = key;
+                        params.Item.pronoun.M[pronoun] = {
+                                "S": object
+                        };
+
+
+                        dynamodb.putItem(params, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
+
+                    }
 
                 }
             });
