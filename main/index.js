@@ -135,7 +135,7 @@ function whatPost(intent, session, callback){
         buildSpeechletResponse(speechOutput, repromptText, false));
   } else {
     if(!slotPronoun){
-      slotPronoun = "my";
+      slotPronoun = "pseudo";
     }
 
     var dataObject = {
@@ -146,7 +146,7 @@ function whatPost(intent, session, callback){
     }
 
     storage.whatSave(dataObject, function(res){
-      speechOutput = "Saved " + slotKey;
+      speechOutput = "Saved " + slotPronoun + " " + slotKey;
       repromptText = speechOutput;
 
       var sessionAttributes = {
@@ -167,7 +167,7 @@ function whatGet(intent, session, callback){
   var slotKey = intent.slots.WhatKey.value;
 
   if(!slotPronoun){
-    slotPronoun = "my";
+    slotPronoun = "pseudo";
   }
 
   var dataObject = {
@@ -179,6 +179,10 @@ function whatGet(intent, session, callback){
   storage.whatLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
+
+    if(slotPronoun == "pseudo"){
+      slotPronoun = "";
+    }
 
     if(!data){
       speechOutput = "You didn't tell me what " + slotPronoun + " " + slotKey + " is yet"
@@ -208,6 +212,7 @@ function wherePost(intent, session, callback){
 
   if(!slotKey || !slotValue){
     speechOutput = "Error saving data, please try again";
+    // speechOutput = "Error saving data " + "pronoun " + slotPronoun + "key " + slotKey + "value " + slotValue;
     repromptText = "Please try again";
 
     var sessionAttributes = {
@@ -219,7 +224,7 @@ function wherePost(intent, session, callback){
         buildSpeechletResponse(speechOutput, repromptText, false));
   } else {
     if(!slotPronoun){
-      slotPronoun = "my";
+      slotPronoun = "pseudo";
     }
 
     var dataObject = {
@@ -251,7 +256,7 @@ function whereGet(intent, session, callback){
   var slotKey = intent.slots.WhereKey.value;
 
   if(!slotPronoun){
-    slotPronoun = "my";
+    slotPronoun = "pseudo";
   }
 
   var dataObject = {
@@ -263,6 +268,10 @@ function whereGet(intent, session, callback){
   storage.whereLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
+
+    if(slotPronoun == "pseudo"){
+      slotPronoun = "";
+    }
 
     if(!data){
       speechOutput = "Could not find record for " + slotKey
@@ -306,7 +315,7 @@ function whenPost(intent, session, callback){
         buildSpeechletResponse(speechOutput, repromptText, false));
   } else {
     if(!slotPronoun){
-      slotPronoun = "my";
+      slotPronoun = "pseudo";
     }
 
     if(slotTime){
@@ -346,7 +355,7 @@ function whenGet(intent, session, callback){
   var slotEvent = intent.slots.Event.value;
 
   if(!slotPronoun){
-    slotPronoun = "my";
+    slotPronoun = "pseudo";
   }
 
   var dataObject = {
@@ -359,6 +368,10 @@ function whenGet(intent, session, callback){
   storage.whenLoad(dataObject, function(data){
     console.log('success get');
     console.log(data);
+
+    if(slotPronoun == "pseudo"){
+      slotPronoun = "";
+    }
 
     if(!data){
       speechOutput = "Could not find record for " + slotKey
