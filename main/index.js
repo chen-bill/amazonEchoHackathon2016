@@ -146,7 +146,7 @@ function whatPost(intent, session, callback){
     }
 
     storage.whatSave(dataObject, function(res){
-      speechOutput = "Saved " + slotKey;
+      speechOutput = "Saved " + slotPronoun + " " + slotKey;
       repromptText = speechOutput;
 
       var sessionAttributes = {
@@ -364,7 +364,7 @@ function whenGet(intent, session, callback){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
-      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + data;
+      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + " <say-as interpret-as='date'>" + data + "</say-as>";
     }
 
     var sessionAttributes = {
