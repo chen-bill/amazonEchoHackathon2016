@@ -33,8 +33,14 @@ var storage = (function () {
                 else {
                     // console.log("DATA RETREIVED");
                     // console.log(data);
-                    console.log(data.Item.pronoun.M[dataObject.pronoun].S);
-                    callback(data.Item.pronoun.M[dataObject.pronoun].S);
+                    if (data.Item.pronoun.M[dataObject.pronoun]) {
+                        console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                        callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+                    }
+                    else {
+                        callback(null);
+                    }    
+                    
                 }
             });
         },
@@ -212,36 +218,36 @@ var storage = (function () {
         },
 
         whereSave: function (dataObject, callback) {
-            console.log('save');
-            console.log(dataObject);
+            // console.log('save');
+            // console.log(dataObject);
             
-            var pronoun = dataObject.pronoun;
-            var key = dataObject.key;
-            var object = JSON.stringify(dataObject.value);
+            // var pronoun = dataObject.pronoun;
+            // var key = dataObject.key;
+            // var object = JSON.stringify(dataObject.value);
 
-            var params = {
-                TableName: dataObject.table,
-                Item: {
-                    "key": {},
-                    "pronoun": { "M": {} }
-                }
-            };
-            params.Item.key.S = key;
-            params.Item.pronoun.M[pronoun] = {
-                    "S": object
-            };
-            console.log(JSON.stringify(params));
+            // var params = {
+            //     TableName: dataObject.table,
+            //     Item: {
+            //         "key": {},
+            //         "pronoun": { "M": {} }
+            //     }
+            // };
+            // params.Item.key.S = key;
+            // params.Item.pronoun.M[pronoun] = {
+            //         "S": object
+            // };
+            // console.log(JSON.stringify(params));
 
-            dynamodb.putItem(params, function (err, data) {
-                if (err) {
-                    console.log('error');
-                    console.log(err);
-                }
-                if (callback) {
-                    console.log('success');
-                    callback(data);
-                }
-            });
+            // dynamodb.putItem(params, function (err, data) {
+            //     if (err) {
+            //         console.log('error');
+            //         console.log(err);
+            //     }
+            //     if (callback) {
+            //         console.log('success');
+            //         callback(data);
+            //     }
+            // });
         }
     };
 })();
