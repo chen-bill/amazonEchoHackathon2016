@@ -4,11 +4,11 @@ WhatPostIntent {WhatKey} is {WhatValue}
 WhatGetIntent What is {Pronoun} {WhatKey}
 WhatGetIntent What are {Pronoun} {WhatKey}
 
-WherePostIntent My {WhereKey} is {WhereValue} 
+WherePostIntent {Pronoun} {WhereKey} is {WhereValue} 
 WherePostIntent I can find my  {WhereKey} {WhereValue} 
 WherePostIntent I found my {WhereKey} {WhereValue}
-WherePostIntent My {WhereKey} is located {WhereValue}
-WherePostIntent My {WhereKey} is located {WhereValue}
+WherePostIntent {Pronoun} {WhereKey} is located {WhereValue}
+WherePostIntent {Pronoun} {WhereKey} is located {WhereValue}
 WherePostIntent One can find {WhereKey} {WhereValue}
 WherePostIntent We can find {WhereKey} {WhereValue}
 WherePostIntent They can find {WhereKey} {WhereValue}
@@ -69,8 +69,17 @@ WherePostIntent Maybe I can find {Pronoun} {WhereKey} {WhereValue}
 WhereGetIntent Where is {Pronoun} {WhereKey}
 WhereGetIntent Where is {WhereKey}
 
-WhenPostIntent {Pronoun} {WhenKey} {Event} on {date}
-WhenPostIntent {Pronoun} {WhenKey} {Event} {time}
-WhenPostIntent {date} {pronoun} {WhenKey} {Event}
-WhenPostIntent {date} {WhenKey} {Event}
+WhenPostIntent {Pronoun} {WhenKey} was {Event} on {Date}
+WhenPostIntent {Pronoun} {WhenKey} was {Event} {Date}
+WhenPostIntent {Pronoun} {WhenKey} was {Event} at {Time}
+WhenPostIntent {Pronoun} {WhenKey} {Event} on {Date}
+WhenPostIntent {Pronoun} {WhenKey} {Event} {Time}
+WhenPostIntent {Date} {Pronoun} {WhenKey} {Event}
+WhenPostIntent {Date} {WhenKey} {Event}
 
+WhenGetIntent When was {Pronoun} {WhenKey} last {Event}
+WhenGetIntent When was {Pronoun} {WhenKey} {Event}
+WhenGetIntent When was {WhenKey} last {Event}
+WhenGetIntent When was {WhenKey} {Event}
+WhenGetIntent When did {Pronoun} {WhenKey} last {Event}
+WhenGetIntent When did {WhenKey} last {Event}

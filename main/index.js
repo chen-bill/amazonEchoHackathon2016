@@ -377,7 +377,7 @@ function whenGet(intent, session, callback){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
-      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + data;
+      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + " <say-as interpret-as='date'>" + data + "</say-as>";
     }
 
     var sessionAttributes = {
