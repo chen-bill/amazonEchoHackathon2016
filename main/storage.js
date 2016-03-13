@@ -16,23 +16,27 @@ var storage = (function () {
 
     return {
         whatLoad: function (dataObject, callback) {
-            // console.log('load');
-            // console.log(dataObject);
-            // dynamodb.getItem({
-            //     TableName: dataObject.table,
-            //     Key: {
-            //         key: {
-            //             S: dataObject.key
-            //         }
-            //     }
-            // }, function (err, data) {
-            //     if (err){
-            //         callback(err);
-            //     }
-            //     else{
-            //         callback(data);
-            //     }
-            // });
+            console.log('load');
+            console.log(dataObject);
+            var params = {
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: dataObject.key
+                    }
+                }
+            };
+            dynamodb.getItem(params, function (err, data) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    // console.log("DATA RETREIVED");
+                    // console.log(data);
+                    console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                    callback(data.Item.pronoun.M[dataObject.pronoun].S);
+                }
+            });
         },
 
         whatSave: function (dataObject, callback) {
