@@ -65,14 +65,14 @@ var storage = (function () {
             //     }
             // }
 
-            var params = {
-                TableName: dataObject.table,
-                Key: {
-                    key: {
-                        S: key
-                    }
-                }
-            };
+            // var params = {
+            //     TableName: dataObject.table,
+            //     Key: {
+            //         key: {
+            //             S: key
+            //         }
+            //     }
+            // };
             dynamodb.getItem(params, function (err, data) {
                 if (err) {
                     callback(err);
@@ -82,7 +82,39 @@ var storage = (function () {
                     // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
                     //console.log(data);
 
-                    if (data) {
+                    if (Object.keys(data).length === 0 && JSON.stringify(data) === JSON.stringify({})) {
+                        //Post
+                         var params = {
+                            TableName: dataObject.table,
+                            Item: {
+                                "key": {},
+                                "pronoun": {
+                                    "M": {}
+                                }
+                            }
+                        };
+
+
+                        params.Item.key.S = key;
+                        params.Item.pronoun.M[pronoun] = {
+                                "S": object
+                        };
+
+
+                        dynamodb.putItem(params, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
+
+                    }
+                    else {
+
                         var previousValue = data;
 
                         //Post
@@ -120,39 +152,6 @@ var storage = (function () {
                                 callback(data);
                             }
                         });
-
-                    }
-                    else {
-
-                        //Post
-                         var params = {
-                            TableName: dataObject.table,
-                            Item: {
-                                "key": {},
-                                "pronoun": {
-                                    "M": {}
-                                }
-                            }
-                        };
-
-
-                        params.Item.key.S = key;
-                        params.Item.pronoun.M[pronoun] = {
-                                "S": object
-                        };
-
-
-                        dynamodb.putItem(params, function (err, data) {
-                            if (err) {
-                                console.log('error');
-                                console.log(err);
-                            }
-                            if (callback) {
-                                console.log('success');
-                                callback(data);
-                            }
-                        });
-
                     }
 
                 }
