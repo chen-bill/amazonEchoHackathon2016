@@ -270,7 +270,7 @@ var storage = (function () {
                                 "M": {}
                         };
 
-                        params.Item.pronoum.M[pronoun].M[dataObject.event] = {
+                        params.Item.pronoun.M[pronoun].M[dataObject.event] = {
                             "S": dataObject.timestamp
                         };
 
@@ -317,7 +317,7 @@ var storage = (function () {
                         //     "S": "dummyDate"
                         //   }
 
-                        previousValue.Item.pronoum.M[pronoun].M[dataObject.event] = {
+                        previousValue.Item.pronoun.M[pronoun].M[dataObject.event] = {
                             "S": dataObject.timestamp
                         };
 
