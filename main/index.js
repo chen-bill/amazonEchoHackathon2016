@@ -118,11 +118,10 @@ function whatPost(intent, session, callback){
   var slotKey = intent.slots.WhatKey.value;
   var slotValue = intent.slots.WhatValue.value;
 
-  console.log(slotPronoun);
-  console.log(slotKey);
-  console.log(slotValue);
+  console.log("what post", slotPronoun, slotKey, slotValue);
 
   if(!slotKey || !slotValue){
+    console.log(slotPronoun, slotKey, slotValue);
     speechOutput = "Error saving data, please try again";
     repromptText = "Please try again";
 
@@ -166,6 +165,8 @@ function whatGet(intent, session, callback){
   var slotPronoun = intent.slots.Pronoun.value;
   var slotKey = intent.slots.WhatKey.value;
 
+  console.log("what get", slotPronoun, slotKey);
+
   if(!slotPronoun){
     slotPronoun = "pseudo";
   }
@@ -191,7 +192,11 @@ function whatGet(intent, session, callback){
       if(slotPronoun == 'my'){
         slotPronoun = 'your';
       }
-      speechOutput = slotPronoun + " " + slotKey + " is " + data;
+      if(!isNaN(data)){
+        speechOutput = slotPronoun + " " + slotKey + " is " +  "<say-as interpret-as='digits'>" + data +"</say-as>";
+      } else {
+        speechOutput = slotPronoun + " " + slotKey + " is " + data;  
+      }
     }
 
     var sessionAttributes = {
@@ -211,9 +216,10 @@ function wherePost(intent, session, callback){
   var slotKey = intent.slots.WhereKey.value;
   var slotValue = intent.slots.WhereValue.value;
 
-  console.log(slotPronoun, slotKey, slotValue);
+  console.log("where post",slotPronoun, slotKey, slotValue);
 
   if(!slotKey || !slotValue){
+    console.log(slotPronoun, slotKey, slotValue);
     speechOutput = "Error saving data, please try again";
     // speechOutput = "Error saving data " + "pronoun " + slotPronoun + "key " + slotKey + "value " + slotValue;
     repromptText = "Please try again";
@@ -257,6 +263,8 @@ function whereGet(intent, session, callback){
   var repromptText;
   var slotPronoun = intent.slots.Pronoun.value;
   var slotKey = intent.slots.WhereKey.value;
+
+  console.log("where get",slotPronoun, slotKey);
 
   if(!slotPronoun){
     slotPronoun = "pseudo";
@@ -306,9 +314,10 @@ function whenPost(intent, session, callback){
   var slotTime = intent.slots.Time.value;
   var timestamp;
 
-  console.log(slotPronoun, slotKey, slotEvent, slotDate, slotTime);
+  console.log("when post", slotPronoun, slotKey, slotEvent, slotDate, slotTime);
 
   if(!slotTime && !slotDate || !slotEvent || !slotKey){
+    console.log(slotKey, slotEvent, slotDate, slotTime);
     speechOutput = "Error saving data, please try again";
     repromptText = "Please try again";
 
@@ -360,6 +369,8 @@ function whenGet(intent, session, callback){
   var slotKey = intent.slots.WhenKey.value;
   var slotEvent = intent.slots.Event.value;
 
+  console.log("When get", slotPronoun, slotKey, slotEvent);
+
   if(!slotPronoun){
     slotPronoun = "pseudo";
   }
@@ -386,7 +397,27 @@ function whenGet(intent, session, callback){
       if(slotPronoun == 'my'){
         slotPronoun = 'your';
       }
-      speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + " <say-as interpret-as='date'>" + data + "</say-as>";
+      if(slotKey == 'I'){
+        slotKey = 'you';
+      }
+      var currentDate = new Date();
+      var newDate = new Date(data);
+      var word;
+
+      if(currentDate > newDate){
+        word = "was"
+      } else {
+        word = "is"
+      }
+
+      var firstWord = slotEvent.split(" ")[0];
+      // console.log(firstWord);
+      // console.log(firstWord.slice(-2));
+      if(firstWord.slice(-2) == "ed"){
+        word = "";
+      }
+
+      speechOutput = slotPronoun + " " + slotKey + " " + word + " " + slotEvent + " on " + data;
     }
 
     var sessionAttributes = {
