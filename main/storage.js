@@ -194,8 +194,16 @@ var storage = (function () {
                     callback(err);
                 }
                 else {
-                    console.log(data.Item.pronoun.M[dataObject.pronoun].S);
-                    callback(data.Item.pronoun.M[dataObject.pronoun].S);
+                    // console.log("DATA RETREIVED");
+                    // console.log(data);
+                    if (data.Item.pronoun.M[dataObject.pronoun]) {
+                        console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                        callback(data.Item.pronoun.M[dataObject.pronoun].S);    
+                    }
+                    else {
+                        callback(null);
+                    }    
+                    
                 }
             });
             // console.log('load');
@@ -218,36 +226,51 @@ var storage = (function () {
         },
 
         whereSave: function (dataObject, callback) {
-            // console.log('save');
-            // console.log(dataObject);
-            
-            // var pronoun = dataObject.pronoun;
-            // var key = dataObject.key;
-            // var object = JSON.stringify(dataObject.value);
+            console.log('save');
+            console.log(dataObject);
+            var pronoun = dataObject.pronoun;
+            var key = dataObject.key;
+            var object = JSON.stringify(dataObject.value);
 
-            // var params = {
-            //     TableName: dataObject.table,
-            //     Item: {
-            //         "key": {},
-            //         "pronoun": { "M": {} }
-            //     }
-            // };
-            // params.Item.key.S = key;
-            // params.Item.pronoun.M[pronoun] = {
-            //         "S": object
-            // };
-            // console.log(JSON.stringify(params));
+            var params = {
+                TableName: dataObject.table,
+                Key: {
+                    key: {
+                        S: key
+                    }
+                }
+            };
+            dynamodb.getItem(params, function (err, data) {
+                if (err) {
+                    callback(err);
+                }
+                else {
+                    console.log("Succesfully retreived old data:");
+                    // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+                    console.log(data);
 
-            // dynamodb.putItem(params, function (err, data) {
-            //     if (err) {
-            //         console.log('error');
-            //         console.log(err);
-            //     }
-            //     if (callback) {
-            //         console.log('success');
-            //         callback(data);
-            //     }
-            // });
+                    var previousValue = data;
+
+                    previousValue.Item.key.S = key;
+                    previousValue.Item.pronoun.M[pronoun] = {
+                            "S": object
+                    };
+                    previousValue.TableName = dataObject.table;
+                    console.log("Posting new data:");
+                    console.log(JSON.stringify(previousValue));
+
+                    dynamodb.putItem(previousValue, function (err, data) {
+                        if (err) {
+                            console.log('error');
+                            console.log(err);
+                        }
+                        if (callback) {
+                            console.log('success');
+                            callback(data);
+                        }
+                    });
+                }
+            });
         }
     };
 })();
