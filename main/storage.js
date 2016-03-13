@@ -156,32 +156,36 @@ var storage = (function () {
         },
 
         whereSave: function (dataObject, callback) {
-            // console.log('save');
-            // console.log(dataObject);
-            // dynamodb.putItem({
-            //     TableName: dataObject.table,
-            //     Item: {
-            //         key: {
-            //             S: dataObject.key,
-            //         },
-            //         dataObject.pronoun : JSON.stringify(dataObject.value)
-            //         pronoun: {
-            //             S: dataObject.pronoun
-            //         },
-            //         data: {
-            //             S: JSON.stringify(dataObject.value)
-            //         }
-            //     }
-            // }, function (err, data) {
-            //     if (err) {
-            //         console.log('error');
-            //         console.log(err);
-            //     }
-            //     if (callback) {
-            //         console.log('success');
-            //         callback(data);
-            //     }
-            // });
+            console.log('save');
+            console.log(dataObject);
+            
+            var pronoun = dataObject.pronoun;
+            var key = dataObject.key;
+            var object = JSON.stringify(dataObject.value);
+
+            var params = {
+                TableName: dataObject.table,
+                Item: {
+                    "key": {},
+                    "pronoun": { "M" }
+                }
+            };
+            params.Item.key.S = key;
+            params.Item.pronoun.M[pronoun] = {
+                    "S": object
+            };
+            console.log(JSON.stringify(params));
+
+            dynamodb.putItem(params, function (err, data) {
+                if (err) {
+                    console.log('error');
+                    console.log(err);
+                }
+                if (callback) {
+                    console.log('success');
+                    callback(data);
+                }
+            });
         }
     };
 })();
