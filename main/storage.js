@@ -256,11 +256,74 @@ var storage = (function () {
         },
 
         whereSave: function (dataObject, callback) {
+            // console.log('save');
+            // console.log(dataObject);
+            // var pronoun = dataObject.pronoun;
+            // var key = dataObject.key;
+            // var object = JSON.stringify(dataObject.value);
+
+            // var params = {
+            //     TableName: dataObject.table,
+            //     Key: {
+            //         key: {
+            //             S: key
+            //         }
+            //     }
+            // };
+            // dynamodb.getItem(params, function (err, data) {
+            //     if (err) {
+            //         callback(err);
+            //     }
+            //     else {
+            //         console.log("Succesfully retreived old data:");
+            //         // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
+            //         console.log(data);
+
+            //         var previousValue = data;
+
+            //         previousValue.Item.key.S = key;
+            //         previousValue.Item.pronoun.M[pronoun] = {
+            //                 "S": object
+            //         };
+            //         previousValue.TableName = dataObject.table;
+            //         console.log("Posting new data:");
+            //         console.log(JSON.stringify(previousValue));
+
+            //         dynamodb.putItem(previousValue, function (err, data) {
+            //             if (err) {
+            //                 console.log('error');
+            //                 console.log(err);
+            //             }
+            //             if (callback) {
+            //                 console.log('success');
+            //                 callback(data);
+            //             }
+            //         });
+            //     }
+            // });
+
+
             console.log('save');
             console.log(dataObject);
             var pronoun = dataObject.pronoun;
             var key = dataObject.key;
             var object = JSON.stringify(dataObject.value);
+
+            // var params = {
+            //     TableName: dataObject.table,
+            //     Item: {
+            //       "key": {
+            //         "S": "phone"
+            //       },
+            //       "pronoun": {
+            //         "M": {
+            //           "Bill's": {
+            //             "S": "12345"
+            //           }
+            //         }
+            //       }
+            //     }
+            // }
 
             var params = {
                 TableName: dataObject.table,
@@ -277,28 +340,80 @@ var storage = (function () {
                 else {
                     console.log("Succesfully retreived old data:");
                     // console.log(data.Item.pronoun.M[dataObject.pronoun].S);
-                    console.log(data);
+                    //console.log(data);
 
-                    var previousValue = data;
+                    if (Object.keys(data).length === 0 && JSON.stringify(data) === JSON.stringify({})) {
+                        //Post
+                         var params = {
+                            TableName: dataObject.table,
+                            Item: {
+                                "key": {},
+                                "pronoun": {
+                                    "M": {}
+                                }
+                            }
+                        };
 
-                    previousValue.Item.key.S = key;
-                    previousValue.Item.pronoun.M[pronoun] = {
-                            "S": object
-                    };
-                    previousValue.TableName = dataObject.table;
-                    console.log("Posting new data:");
-                    console.log(JSON.stringify(previousValue));
 
-                    dynamodb.putItem(previousValue, function (err, data) {
-                        if (err) {
-                            console.log('error');
-                            console.log(err);
-                        }
-                        if (callback) {
-                            console.log('success');
-                            callback(data);
-                        }
-                    });
+                        params.Item.key.S = key;
+                        params.Item.pronoun.M[pronoun] = {
+                                "S": object
+                        };
+
+
+                        dynamodb.putItem(params, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
+
+                    }
+                    else {
+
+                        var previousValue = data;
+
+                        //Post
+                        //  var params = {
+                        //     TableName: dataObject.table,
+                        //     Item: {
+                        //         "key": {},
+                        //         "pronoun": {
+                        //             "M": {}
+                        //         }
+                        //     }
+                        // };
+
+
+                        // params.Item.key.S = key;
+                        // params.Item.pronoun.M[pronoun] = {
+                        //         "S": object
+                        // };
+
+                        previousValue.Item.key.S = key;
+                        previousValue.Item.pronoun.M[pronoun] = {
+                                "S": object
+                        };
+                        previousValue.TableName = dataObject.table;
+                        console.log("Posting new data:");
+                        console.log(JSON.stringify(previousValue));
+
+                        dynamodb.putItem(previousValue, function (err, data) {
+                            if (err) {
+                                console.log('error');
+                                console.log(err);
+                            }
+                            if (callback) {
+                                console.log('success');
+                                callback(data);
+                            }
+                        });
+                    }
+
                 }
             });
         }
