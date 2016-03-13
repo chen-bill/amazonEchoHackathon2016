@@ -188,6 +188,9 @@ function whatGet(intent, session, callback){
       speechOutput = "You didn't tell me what " + slotPronoun + " " + slotKey + " is yet"
       repromptText = "Try again?"
     } else {
+      if(slotPronoun == 'my'){
+        slotPronoun = 'your';
+      }
       speechOutput = slotPronoun + " " + slotKey + " is " + data;
     }
 
@@ -277,6 +280,9 @@ function whereGet(intent, session, callback){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
+      if(slotPronoun == 'my'){
+        slotPronoun = 'your';
+      }
       speechOutput = slotPronoun + " " + slotKey + " is " + data;
     }
 
@@ -377,6 +383,9 @@ function whenGet(intent, session, callback){
       speechOutput = "Could not find record for " + slotKey
       repromptText = "Try again?"
     } else {
+      if(slotPronoun == 'my'){
+        slotPronoun = 'your';
+      }
       speechOutput = slotPronoun + " " + slotKey + " " + slotEvent + " <say-as interpret-as='date'>" + data + "</say-as>";
     }
 
