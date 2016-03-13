@@ -66,6 +66,14 @@ function onIntent(intentRequest, session, callback) {
     whatPost(intent, session, callback);
   } else if ("WhatGetIntent" === intentName) {
     whatGet(intent, session, callback);
+  } else if ("WherePostIntent" === intentName) {
+    wherePost(intent, session, callback);
+  } else if ("WhereGetIntent" === intentName) {
+    whereGet(intent, session, callback);
+  } else if ("WhenPostIntent" === intentName) {
+    whenPost(intent, session, callback);
+  } else if ("WhenGetIntent" === intentName) {
+    whenGet(intent, session, callback);
   } else if ("AMAZON.StartOverIntent" === intentName) {
     getWelcomeResponse(callback);
   } else if ("AMAZON.RepeatIntent" === intentName) {
@@ -193,6 +201,8 @@ function wherePost(intent, session, callback){
   var slotKey = intent.slots.WhereKey.value;
   var slotValue = intent.slots.WhereValue.value;
 
+  console.log(slotPronoun, slotKey, slotValue);
+
   if(!slotKey || !slotValue){
     speechOutput = "Error saving data, please try again";
     repromptText = "Please try again";
@@ -210,7 +220,7 @@ function wherePost(intent, session, callback){
     }
 
     var dataObject = {
-      table: 'what',
+      table: 'where',
       pronoun: slotPronoun,
       key: slotKey,
       value: slotValue
@@ -232,6 +242,97 @@ function wherePost(intent, session, callback){
 }
 
 function whereGet(intent, session, callback){
+  var speechOutput;
+  var repromptText;
+  var slotPronoun = intent.slots.Pronoun.value;
+  var slotKey = intent.slots.WhereKey.value;
+
+  var dataObject = {
+    table: 'where',
+    pronoun: slotPronoun,
+    key: slotKey
+  }
+
+  storage.whereLoad(dataObject, function(data){
+    console.log('success get');
+    console.log(data);
+    var responseValue = data.value;
+
+    if(!responseValue){
+      speechOutput = "Could not find record for " + slotKey
+      reprompt = "Try again?"
+    } else {
+      speechOutput = slotPronoun + " " + slotKey + " is " + responseValue;
+    }
+
+    var sessionAttributes = {
+      "speechOutput": speechOutput,
+      "repromptText": repromptText
+    };
+
+    callback(sessionAttributes,
+      buildSpeechletResponse(speechOutput, repromptText, false));
+  });
+}
+
+function whenPost(intent, session, callback){
+  var speechOutput;
+  var repromptText;
+  var slotPronoun = intent.slots.Pronoun.value;
+  var slotKey = intent.slots.WhenKey.value;
+  var slotEvent = intent.slots.Event.value;
+  var slotDate = intent.slots.Date.value;
+  var slotTime = intent.slots.Time.value;
+  var timestamp;
+
+  console.log(slotPronoun, slotKey, slotEvent, slotDate, slotTime);
+
+  if(!slotTime && !slotDate || !slotEvent || !slotKey){
+    speechOutput = "Error saving data, please try again";
+    repromptText = "Please try again";
+
+    var sessionAttributes = {
+      "speechOutput": speechOutput,
+      "repromptText": repromptText
+    };
+
+    callback(sessionAttributes,
+        buildSpeechletResponse(speechOutput, repromptText, false));
+  } else {
+    if(!slotPronoun){
+      slotPronoun = "my";
+    }
+
+    if(slotTime){
+      timestamp = slotTime;
+    } else {
+      timestamp = slotDate;
+    }
+
+    var dataObject = {
+      table: 'when',
+      pronoun: slotPronoun,
+      key: slotKey,
+      event: slotEvent,
+      timestamp: timestamp
+    }
+
+    storage.whenSave(dataObject, function(res){
+      speechOutput = "Saved " + slotKey + " " + slotEvent;
+      repromptText = speechOutput;
+
+      var sessionAttributes = {
+        "speechOutput": speechOutput,
+        "repromptText": repromptText
+      };
+
+      callback(sessionAttributes,
+        buildSpeechletResponse(speechOutput, repromptText, false));
+    });
+  }
+}
+
+function whenGet(intent, session, callback){
   var speechOutput;
   var repromptText;
   var slotPronoun = intent.slots.Pronoun.value;
@@ -264,7 +365,6 @@ function whereGet(intent, session, callback){
       buildSpeechletResponse(speechOutput, repromptText, false));
   });
 }
-
 
 function handleRepeatRequest(intent, session, callback) {
   var speechOutput = session.speechOutput;
